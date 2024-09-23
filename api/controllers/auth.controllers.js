@@ -29,8 +29,25 @@ export const register = async (req, res) => {
 
 
 
-export const login = (req, res) => {
-  res.send("Login");
+export const login = async (req, res) => {
+  const {username, password} = req.body ;
+  
+  try{
+    const user = await prisma.user.findUnique({
+      where: {username: username}
+    })
+
+    if(!user) res.status(401).json({message: "Invalid Credentails!"}) ;
+
+    const isPasswordValid = await bcrypt.compare(password, user.password) ;
+    
+    if(!isPasswordValid) res.status(401).json({message: "Invalid Credentails!"}) ;
+
+  }
+  catch(err) {
+    console.log(err) ;
+    res.status(500).json({message: "Failed to login!"}) ;
+  }
 };
 
 export const logout = (req, res) => {
