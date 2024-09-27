@@ -43,6 +43,9 @@ export const login = async (req, res) => {
     
     if(!isPasswordValid) res.status(401).json({message: "Invalid Credentails!"}) ;
 
+    res.cookie("test", "myValue", {
+      httpOnly: true,
+    }).status(200).json({message: "Login successfully"}) ;
   }
   catch(err) {
     console.log(err) ;
