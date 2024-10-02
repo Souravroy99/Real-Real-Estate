@@ -43,8 +43,12 @@ export const login = async (req, res) => {
     
     if(!isPasswordValid) res.status(401).json({message: "Invalid Credentails!"}) ;
 
+    const age = 1000 * 60 * 60 * 24 * 7 ; // miliseconds
+
     res.cookie("test", "myValue", {
       httpOnly: true,
+      secure: true,
+      maxAge: age,
     }).status(200).json({message: "Login successfully"}) ;
   }
   catch(err) {
