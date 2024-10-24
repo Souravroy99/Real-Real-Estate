@@ -40,7 +40,7 @@ export const login = async (req, res) => {
     if (!isPasswordValid)
       res.status(401).json({ message: "Invalid Credentails!" });
 
-    const age = 1000 * 60 * 60 * 24 * 7; // 7 Days in miliseconds 
+    const age = 1000 * 60 * 60 * 24 * 7; // 7 Days in miliseconds
 
     const token = jwt.sign(
       {
@@ -51,9 +51,9 @@ export const login = async (req, res) => {
       { expiresIn: age }
     );
 
-    const {password: userPassword, ...userInfo} = user ;
+    const { password: userPassword, ...userInfo } = user;
 
-    // Using cookies 
+    // Using cookies
     res
       .cookie("token", token, {
         httpOnly: true,
@@ -69,5 +69,8 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token").status(200).json({ message: "Logout Successfully Done" });
+  res
+    .clearCookie("token")
+    .status(200)
+    .json({ message: "Logout Successfully Done" });
 };

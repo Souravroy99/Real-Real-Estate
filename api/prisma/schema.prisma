@@ -7,12 +7,12 @@
 generator client {
   provider = "prisma-client-js"
 }
- 
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
-  
+
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String   @unique
@@ -20,4 +20,53 @@ model User {
   password  String
   avatar    String?
   createdAt DateTime @default(now())
+  posts     Post[]
 }
+
+model Post {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  bedroom    Int
+  bathroom   Int
+  price      Int
+  images     String[]
+  latitude   String
+  longitude  String
+  address    String
+  city       String
+  type       Type
+  property   Property
+  createdAt  DateTime    @default(now())
+  user       User        @relation(fields: [userId], references: [id])
+  userId     String      @db.ObjectId
+  postDetail PostDetail?
+}
+
+enum Type {
+  Buy
+  Rent
+}
+
+enum Property {
+  Apartment
+  House
+  Condo
+  Land
+}
+
+model PostDetail {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  desc       String
+  utilities  String?
+  pet        String?
+  income     String?
+  size       Int
+  bus        Int
+  school     Int
+  restaurant Int
+  post       Post    @relation(fields: [postId], references: [id])
+  postId     String  @unique @db.ObjectId
+}
+
+// For saving new model schema, we need to do(For creating the model only one time): npx prisma db push
+// And then: console-ninja node --env-file .env --watch app.js

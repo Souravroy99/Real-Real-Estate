@@ -1,10 +1,14 @@
-import express from "express" ;
-import { shouldBeLoggedIn, shouldBeAdmin } from "../controllers/test.controllers.js";
+import express from "express";
+import {
+  shouldBeLoggedIn,
+  shouldBeAdmin,
+} from "../controllers/test.controllers.js";
 import { verifyToken } from "../middleware/verifyToken.js";
+import { verifyAdmin } from "../middleware/verifyAdmin.js";
 
-const router = express.Router() ;
+const router = express.Router();
 
-router.get("/should-be-logged-in", verifyToken, shouldBeLoggedIn) ;
-router.get("/should-be-admin", shouldBeAdmin) ;
+router.get("/should-be-logged-in", verifyToken, shouldBeLoggedIn);
+router.get("/should-be-admin", verifyAdmin, shouldBeAdmin);
 
-export default router ; 
+export default router;
