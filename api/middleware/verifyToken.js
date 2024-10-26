@@ -9,8 +9,10 @@ export const verifyToken = async (req, res, next) => {
     if (err) {
       return res.status(403).json({ message: "User have invalid token!" });
     }
-
+ 
     req.userId = payload.id ; // We can able to inject property during api call
+    console.log("From verifyToken User-Id: ", req.userId) ;
+
 
     next() ;
   }) ;
